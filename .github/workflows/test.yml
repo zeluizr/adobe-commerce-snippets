@@ -1,0 +1,37 @@
+# Gate do repositório em todo push e pull request das três branches: os snippets
+# gerados batem com lib/, os testes passam e a extensão empacota. Os XSD do magento2
+# dos testes vão para uma pasta temporária, fora do repositório e fora do .vsix.
+name: test
+
+on:
+  push:
+    branches: [dev, qa, main]
+  pull_request:
+    branches: [dev, qa, main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: snippets, testes e pacote
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Instalar dependências
+        run: npm ci
+      - name: Regerar os snippets (deve ser determinístico)
+        run: node scripts/gerar.js
+      - name: Falhar se o gerado divergiu do commitado
+        run: git diff --exit-code -- snippets/
+      - name: Baixar os XSD do magento2 para os testes
+        run: node scripts/baixar-xsd-teste.js
+      - name: Rodar os testes
+        run: node --test
+      - name: Empacotar a extensão
+        run: npx --yes @vscode/vsce@3 package --out adobe-commerce-snippets.vsix
