@@ -1,0 +1,477 @@
+{
+	"module.xml": {
+		"prefix": "ac-module",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Module/etc/module.xsd\">",
+			"\t<module name=\"${1:Vendor}_${2:Module}\">",
+			"\t\t<sequence>",
+			"\t\t\t<module name=\"${3:Magento_Catalog}\"/>",
+			"\t\t</sequence>",
+			"\t</module>",
+			"</config>"
+		],
+		"description": "etc/module.xml: declara el módulo y, si hace falta, el orden de carga con <sequence>.\nhttps://developer.adobe.com/commerce/php/development/build/component-name"
+	},
+	"module.xml: sequence": {
+		"prefix": "ac-module-sequence",
+		"body": [
+			"<sequence>",
+			"\t<module name=\"${1:Magento_Catalog}\"/>",
+			"</sequence>"
+		],
+		"description": "<sequence>: módulos que deben cargarse antes que este.\nhttps://developer.adobe.com/commerce/php/architecture/modules/dependencies"
+	},
+	"di.xml": {
+		"prefix": "ac-di",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:ObjectManager/etc/config.xsd\">",
+			"\t$0",
+			"</config>"
+		],
+		"description": "etc/di.xml vacío, listo para preferencias, tipos y plugins.\nhttps://developer.adobe.com/commerce/php/development/build/dependency-injection-file"
+	},
+	"di.xml: preference": {
+		"prefix": "ac-di-preference",
+		"body": [
+			"<preference for=\"${1:Vendor\\Module\\Api\\ExampleInterface}\" type=\"${2:Vendor\\Module\\Model\\Example}\"/>"
+		],
+		"description": "<preference>: la implementación que el Object Manager entrega para una interfaz o clase.\nhttps://developer.adobe.com/commerce/php/development/build/dependency-injection-file"
+	},
+	"di.xml: type con arguments": {
+		"prefix": "ac-di-type",
+		"body": [
+			"<type name=\"${1:Vendor\\Module\\Model\\Example}\">",
+			"\t<arguments>",
+			"\t\t<argument name=\"${2:nombre}\" xsi:type=\"${3|string,object,boolean,number,const,init_parameter|}\">${4:valor}</argument>",
+			"\t</arguments>",
+			"</type>"
+		],
+		"description": "<type> con <arguments>: cambia un argumento del constructor de una clase.\nhttps://developer.adobe.com/commerce/php/development/build/dependency-injection-file"
+	},
+	"di.xml: argument array": {
+		"prefix": "ac-di-array",
+		"body": [
+			"<argument name=\"${1:items}\" xsi:type=\"array\">",
+			"\t<item name=\"${2:clave}\" xsi:type=\"${3|string,object,boolean,number,const|}\">${4:valor}</item>",
+			"</argument>"
+		],
+		"description": "<argument> de tipo array con <item>.\nhttps://developer.adobe.com/commerce/php/development/build/dependency-injection-file"
+	},
+	"di.xml: virtualType": {
+		"prefix": "ac-di-virtualtype",
+		"body": [
+			"<virtualType name=\"${1:Vendor\\Module\\Model\\VirtualExample}\" type=\"${2:Vendor\\Module\\Model\\Example}\">",
+			"\t<arguments>",
+			"\t\t<argument name=\"${3:nombre}\" xsi:type=\"${4|string,object,boolean,number,const|}\">${5:valor}</argument>",
+			"\t</arguments>",
+			"</virtualType>"
+		],
+		"description": "<virtualType>: una variante de una clase con otros argumentos, sin escribir una clase nueva.\nhttps://developer.adobe.com/commerce/php/development/build/dependency-injection-file"
+	},
+	"di.xml: plugin": {
+		"prefix": "ac-di-plugin",
+		"body": [
+			"<type name=\"${1:Magento\\Catalog\\Model\\Product}\">",
+			"\t<plugin name=\"${2:vendor_module_product}\" type=\"${3:Vendor\\Module\\Plugin\\ProductPlugin}\" sortOrder=\"${4:10}\" disabled=\"false\"/>",
+			"</type>"
+		],
+		"description": "<plugin> sobre una clase: intercepta sus métodos públicos con before, after o around.\nhttps://developer.adobe.com/commerce/php/development/components/plugins"
+	},
+	"events.xml": {
+		"prefix": "ac-events",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Event/etc/events.xsd\">",
+			"\t<event name=\"${1:catalog_product_save_after}\">",
+			"\t\t<observer name=\"${2:vendor_module_observer}\" instance=\"${3:Vendor\\Module\\Observer\\Example}\"/>",
+			"\t</event>",
+			"</config>"
+		],
+		"description": "etc/events.xml con un observer. En etc/frontend/ o etc/adminhtml/ vale solo para esa área.\nhttps://developer.adobe.com/commerce/php/development/components/events-and-observers/"
+	},
+	"events.xml: event": {
+		"prefix": "ac-event",
+		"body": [
+			"<event name=\"${1:catalog_product_save_after}\">",
+			"\t<observer name=\"${2:vendor_module_observer}\" instance=\"${3:Vendor\\Module\\Observer\\Example}\"/>",
+			"</event>"
+		],
+		"description": "<event> con <observer>.\nhttps://developer.adobe.com/commerce/php/development/components/events-and-observers/"
+	},
+	"routes.xml (frontend)": {
+		"prefix": "ac-routes",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:App/etc/routes.xsd\">",
+			"\t<router id=\"standard\">",
+			"\t\t<route id=\"${1:example}\" frontName=\"${2:example}\">",
+			"\t\t\t<module name=\"${3:Vendor_Module}\"/>",
+			"\t\t</route>",
+			"\t</router>",
+			"</config>"
+		],
+		"description": "etc/frontend/routes.xml: el router standard con el frontName del módulo.\nhttps://developer.adobe.com/commerce/php/development/components/routing"
+	},
+	"routes.xml (adminhtml)": {
+		"prefix": "ac-routes-admin",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:App/etc/routes.xsd\">",
+			"\t<router id=\"admin\">",
+			"\t\t<route id=\"${1:example}\" frontName=\"${2:example}\">",
+			"\t\t\t<module name=\"${3:Vendor_Module}\" before=\"Magento_Backend\"/>",
+			"\t\t</route>",
+			"\t</router>",
+			"</config>"
+		],
+		"description": "etc/adminhtml/routes.xml: el router admin, con el módulo antes de Magento_Backend.\nhttps://developer.adobe.com/commerce/php/development/components/routing"
+	},
+	"webapi.xml": {
+		"prefix": "ac-webapi",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<routes xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Magento_Webapi:etc/webapi.xsd\">",
+			"\t<route url=\"/V1/${1:example}/:id\" method=\"${2|GET,POST,PUT,DELETE|}\">",
+			"\t\t<service class=\"${3:Vendor\\Module\\Api\\ExampleRepositoryInterface}\" method=\"${4:getById}\"/>",
+			"\t\t<resources>",
+			"\t\t\t<resource ref=\"${5:Vendor_Module::example}\"/>",
+			"\t\t</resources>",
+			"\t</route>",
+			"</routes>"
+		],
+		"description": "etc/webapi.xml: una ruta REST hacia un método de un service contract, con su recurso de ACL.\nhttps://developer.adobe.com/commerce/php/development/components/web-api/services"
+	},
+	"webapi.xml: route": {
+		"prefix": "ac-webapi-route",
+		"body": [
+			"<route url=\"/V1/${1:example}\" method=\"${2|GET,POST,PUT,DELETE|}\">",
+			"\t<service class=\"${3:Vendor\\Module\\Api\\ExampleRepositoryInterface}\" method=\"${4:getList}\"/>",
+			"\t<resources>",
+			"\t\t<resource ref=\"${5|Vendor_Module::example,self,anonymous|}\"/>",
+			"\t</resources>",
+			"</route>"
+		],
+		"description": "<route> de la Web API. ref anonymous es público, self es el cliente autenticado.\nhttps://developer.adobe.com/commerce/php/development/security/authorization"
+	},
+	"acl.xml": {
+		"prefix": "ac-acl",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Acl/etc/acl.xsd\">",
+			"\t<acl>",
+			"\t\t<resources>",
+			"\t\t\t<resource id=\"Magento_Backend::admin\">",
+			"\t\t\t\t<resource id=\"${1:Vendor_Module}::${2:example}\" title=\"${3:Example}\" sortOrder=\"${4:10}\"/>",
+			"\t\t\t</resource>",
+			"\t\t</resources>",
+			"\t</acl>",
+			"</config>"
+		],
+		"description": "etc/acl.xml: recursos de ACL bajo Magento_Backend::admin.\nhttps://developer.adobe.com/commerce/php/tutorials/backend/create-access-control-list-rule"
+	},
+	"system.xml": {
+		"prefix": "ac-system",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Magento_Config:etc/system_file.xsd\">",
+			"\t<system>",
+			"\t\t<section id=\"${1:vendor_module}\" translate=\"label\" sortOrder=\"${2:100}\" showInDefault=\"1\" showInWebsite=\"1\" showInStore=\"1\">",
+			"\t\t\t<label>${3:Example}</label>",
+			"\t\t\t<tab>${4:general}</tab>",
+			"\t\t\t<resource>${5:Vendor_Module::config}</resource>",
+			"\t\t\t<group id=\"${6:general}\" translate=\"label\" sortOrder=\"10\" showInDefault=\"1\" showInWebsite=\"1\" showInStore=\"1\">",
+			"\t\t\t\t<label>${7:General}</label>",
+			"\t\t\t\t<field id=\"${8:enabled}\" translate=\"label\" type=\"select\" sortOrder=\"10\" showInDefault=\"1\" showInWebsite=\"1\" showInStore=\"1\">",
+			"\t\t\t\t\t<label>${9:Enabled}</label>",
+			"\t\t\t\t\t<source_model>Magento\\Config\\Model\\Config\\Source\\Yesno</source_model>",
+			"\t\t\t\t</field>",
+			"\t\t\t</group>",
+			"\t\t</section>",
+			"\t</system>",
+			"</config>"
+		],
+		"description": "etc/adminhtml/system.xml: sección, grupo y campo de configuración en Stores > Configuration.\nhttps://experienceleague.adobe.com/en/docs/commerce-operations/configuration-guide/files/config-reference-systemxml"
+	},
+	"system.xml: field": {
+		"prefix": "ac-system-field",
+		"body": [
+			"<field id=\"${1:example}\" translate=\"label\" type=\"${2|text,select,multiselect,textarea,obscure|}\" sortOrder=\"${3:10}\" showInDefault=\"1\" showInWebsite=\"1\" showInStore=\"1\">",
+			"\t<label>${4:Example}</label>",
+			"</field>"
+		],
+		"description": "<field> de configuración dentro de un <group>.\nhttps://experienceleague.adobe.com/en/docs/commerce-operations/configuration-guide/files/config-reference-systemxml"
+	},
+	"config.xml": {
+		"prefix": "ac-config",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Magento_Store:etc/config.xsd\">",
+			"\t<default>",
+			"\t\t<${1:vendor_module}>",
+			"\t\t\t<${2:general}>",
+			"\t\t\t\t<${3:enabled}>${4:1}</${3:enabled}>",
+			"\t\t\t</${2:general}>",
+			"\t\t</${1:vendor_module}>",
+			"\t</default>",
+			"</config>"
+		],
+		"description": "etc/config.xml: valores por defecto de la configuración (section/group/field).\nhttps://experienceleague.adobe.com/en/docs/commerce-operations/configuration-guide/files/module-files"
+	},
+	"crontab.xml": {
+		"prefix": "ac-crontab",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Magento_Cron:etc/crontab.xsd\">",
+			"\t<group id=\"${1:default}\">",
+			"\t\t<job name=\"${2:vendor_module_example}\" instance=\"${3:Vendor\\Module\\Cron\\Example}\" method=\"${4:execute}\">",
+			"\t\t\t<schedule>${5:* * * * *}</schedule>",
+			"\t\t</job>",
+			"\t</group>",
+			"</config>"
+		],
+		"description": "etc/crontab.xml: un job en el grupo default con su expresión cron.\nhttps://experienceleague.adobe.com/en/docs/commerce-operations/configuration-guide/crons/custom-cron-reference"
+	},
+	"crontab.xml: job": {
+		"prefix": "ac-cron-job",
+		"body": [
+			"<group id=\"${1:default}\">",
+			"\t<job name=\"${2:vendor_module_example}\" instance=\"${3:Vendor\\Module\\Cron\\Example}\" method=\"execute\">",
+			"\t\t<schedule>${4:0 * * * *}</schedule>",
+			"\t</job>",
+			"</group>"
+		],
+		"description": "<group> con un <job>. config_path en lugar de schedule lee la expresión de la configuración.\nhttps://experienceleague.adobe.com/en/docs/commerce-operations/configuration-guide/crons/custom-cron-tutorial"
+	},
+	"db_schema.xml": {
+		"prefix": "ac-db-schema",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<schema xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd\">",
+			"\t<table name=\"${1:vendor_module_example}\" resource=\"default\" engine=\"innodb\" comment=\"${2:Example}\">",
+			"\t\t<column xsi:type=\"int\" name=\"${3:entity_id}\" unsigned=\"true\" nullable=\"false\" identity=\"true\" comment=\"${4:Entity ID}\"/>",
+			"\t\t$0",
+			"\t\t<constraint xsi:type=\"primary\" referenceId=\"PRIMARY\">",
+			"\t\t\t<column name=\"${3:entity_id}\"/>",
+			"\t\t</constraint>",
+			"\t</table>",
+			"</schema>"
+		],
+		"description": "etc/db_schema.xml: una tabla con clave primaria autoincremental. Genera el whitelist con setup:db-declaration:generate-whitelist.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: table": {
+		"prefix": "ac-db-table",
+		"body": [
+			"<table name=\"${1:vendor_module_example}\" resource=\"default\" engine=\"innodb\" comment=\"${2:Example}\">",
+			"\t<column xsi:type=\"int\" name=\"${3:entity_id}\" unsigned=\"true\" nullable=\"false\" identity=\"true\" comment=\"${4:Entity ID}\"/>",
+			"\t<constraint xsi:type=\"primary\" referenceId=\"PRIMARY\">",
+			"\t\t<column name=\"${3:entity_id}\"/>",
+			"\t</constraint>",
+			"</table>"
+		],
+		"description": "<table> con clave primaria.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: column int": {
+		"prefix": "ac-db-int",
+		"body": [
+			"<column xsi:type=\"${1|int,smallint,bigint,tinyint|}\" name=\"${2:example_id}\" unsigned=\"true\" nullable=\"${3|false,true|}\" identity=\"false\" default=\"${4:0}\" comment=\"${5:Example ID}\"/>"
+		],
+		"description": "<column> entera (int, smallint, bigint, tinyint).\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: column varchar": {
+		"prefix": "ac-db-varchar",
+		"body": [
+			"<column xsi:type=\"varchar\" name=\"${1:title}\" nullable=\"${2|false,true|}\" length=\"${3:255}\" comment=\"${4:Title}\"/>"
+		],
+		"description": "<column> varchar con length.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: column text": {
+		"prefix": "ac-db-text",
+		"body": [
+			"<column xsi:type=\"${1|text,mediumtext,longtext|}\" name=\"${2:content}\" nullable=\"true\" comment=\"${3:Content}\"/>"
+		],
+		"description": "<column> de texto largo (text, mediumtext, longtext).\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: column decimal": {
+		"prefix": "ac-db-decimal",
+		"body": [
+			"<column xsi:type=\"decimal\" name=\"${1:amount}\" scale=\"${2:4}\" precision=\"${3:20}\" unsigned=\"false\" nullable=\"false\" default=\"0\" comment=\"${4:Amount}\"/>"
+		],
+		"description": "<column> decimal con precision y scale.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: column timestamp": {
+		"prefix": "ac-db-timestamp",
+		"body": [
+			"<column xsi:type=\"timestamp\" name=\"${1:created_at}\" on_update=\"${2|false,true|}\" nullable=\"false\" default=\"CURRENT_TIMESTAMP\" comment=\"${3:Created At}\"/>"
+		],
+		"description": "<column> timestamp con CURRENT_TIMESTAMP; on_update=\"true\" la actualiza en cada cambio.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: column boolean": {
+		"prefix": "ac-db-boolean",
+		"body": [
+			"<column xsi:type=\"boolean\" name=\"${1:is_active}\" nullable=\"false\" default=\"${2|true,false|}\" comment=\"${3:Is Active}\"/>"
+		],
+		"description": "<column> boolean.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: index": {
+		"prefix": "ac-db-index",
+		"body": [
+			"<index referenceId=\"${1:VENDOR_MODULE_EXAMPLE_TITLE}\" indexType=\"${2|btree,fulltext,hash|}\">",
+			"\t<column name=\"${3:title}\"/>",
+			"</index>"
+		],
+		"description": "<index> btree o fulltext sobre una o más columnas.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: unique": {
+		"prefix": "ac-db-unique",
+		"body": [
+			"<constraint xsi:type=\"unique\" referenceId=\"${1:VENDOR_MODULE_EXAMPLE_CODE}\">",
+			"\t<column name=\"${2:code}\"/>",
+			"</constraint>"
+		],
+		"description": "<constraint> unique.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"db_schema.xml: foreign": {
+		"prefix": "ac-db-foreign",
+		"body": [
+			"<constraint xsi:type=\"foreign\" referenceId=\"${1:VENDOR_MODULE_EXAMPLE_STORE_ID_STORE_STORE_ID}\" table=\"${2:vendor_module_example}\" column=\"${3:store_id}\" referenceTable=\"${4:store}\" referenceColumn=\"${5:store_id}\" onDelete=\"${6|CASCADE,SET NULL,NO ACTION|}\"/>"
+		],
+		"description": "<constraint> foreign hacia otra tabla.\nhttps://developer.adobe.com/commerce/php/development/components/declarative-schema/configuration"
+	},
+	"communication.xml": {
+		"prefix": "ac-communication",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Communication/etc/communication.xsd\">",
+			"\t<topic name=\"${1:vendor.module.example}\" request=\"${2:string}\"/>",
+			"</config>"
+		],
+		"description": "etc/communication.xml: declara un topic de la cola de mensajes y el tipo del mensaje.\nhttps://developer.adobe.com/commerce/php/development/components/message-queues/configuration"
+	},
+	"queue_consumer.xml": {
+		"prefix": "ac-queue-consumer",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework-message-queue:etc/consumer.xsd\">",
+			"\t<consumer name=\"${1:vendor.module.example}\" queue=\"${2:vendor.module.example}\" connection=\"${3|db,amqp,stomp|}\" handler=\"${4:Vendor\\Module\\Model\\Consumer}::${5:process}\"/>",
+			"</config>"
+		],
+		"description": "etc/queue_consumer.xml: el consumer de una cola y el método que procesa cada mensaje.\nhttps://developer.adobe.com/commerce/php/development/components/message-queues/configuration"
+	},
+	"queue_publisher.xml": {
+		"prefix": "ac-queue-publisher",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework-message-queue:etc/publisher.xsd\">",
+			"\t<publisher topic=\"${1:vendor.module.example}\">",
+			"\t\t<connection name=\"${2|db,amqp,stomp|}\" exchange=\"${3:magento-db}\"/>",
+			"\t</publisher>",
+			"</config>"
+		],
+		"description": "etc/queue_publisher.xml: por qué conexión y exchange sale un topic.\nhttps://developer.adobe.com/commerce/php/development/components/message-queues/configuration"
+	},
+	"queue_topology.xml": {
+		"prefix": "ac-queue-topology",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework-message-queue:etc/topology.xsd\">",
+			"\t<exchange name=\"${1:magento-db}\" type=\"topic\" connection=\"${2|db,amqp,stomp|}\">",
+			"\t\t<binding id=\"${3:vendorModuleExampleBinding}\" topic=\"${4:vendor.module.example}\" destinationType=\"queue\" destination=\"${5:vendor.module.example}\"/>",
+			"\t</exchange>",
+			"</config>"
+		],
+		"description": "etc/queue_topology.xml: el exchange y el binding del topic hacia la cola.\nhttps://developer.adobe.com/commerce/php/development/components/message-queues/configuration"
+	},
+	"indexer.xml": {
+		"prefix": "ac-indexer",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Indexer/etc/indexer.xsd\">",
+			"\t<indexer id=\"${1:vendor_module_example}\" view_id=\"${2:vendor_module_example}\" class=\"${3:Vendor\\Module\\Model\\Indexer\\Example}\">",
+			"\t\t<title translate=\"true\">${4:Example}</title>",
+			"\t\t<description translate=\"true\">${5:Example indexer}</description>",
+			"\t</indexer>",
+			"</config>"
+		],
+		"description": "etc/indexer.xml: un indexer propio, con la vista de mview que lo alimenta.\nhttps://developer.adobe.com/commerce/php/development/components/indexing/custom-indexer"
+	},
+	"mview.xml": {
+		"prefix": "ac-mview",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Mview/etc/mview.xsd\">",
+			"\t<view id=\"${1:vendor_module_example}\" class=\"${2:Vendor\\Module\\Model\\Indexer\\Example}\" group=\"indexer\">",
+			"\t\t<subscriptions>",
+			"\t\t\t<table name=\"${3:catalog_product_entity}\" entity_column=\"${4:entity_id}\"/>",
+			"\t\t</subscriptions>",
+			"\t</view>",
+			"</config>"
+		],
+		"description": "etc/mview.xml: la vista y las tablas que disparan la reindexación en modo programado.\nhttps://developer.adobe.com/commerce/php/development/components/indexing/custom-indexer"
+	},
+	"layout: page": {
+		"prefix": "ac-layout",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<page xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:View/Layout/etc/page_configuration.xsd\">",
+			"\t<body>",
+			"\t\t$0",
+			"\t</body>",
+			"</page>"
+		],
+		"description": "Archivo de layout (view/<área>/layout/<handle>.xml) con <body>.\nhttps://developer.adobe.com/commerce/frontend-core/guide/layouts/types"
+	},
+	"layout: referenceBlock": {
+		"prefix": "ac-layout-referenceblock",
+		"body": [
+			"<referenceBlock name=\"${1:product.info.main}\">",
+			"\t$0",
+			"</referenceBlock>"
+		],
+		"description": "<referenceBlock>: modifica un bloque existente (argumentos, template, display).\nhttps://developer.adobe.com/commerce/frontend-core/guide/layouts/xml-instructions"
+	},
+	"layout: referenceContainer": {
+		"prefix": "ac-layout-referencecontainer",
+		"body": [
+			"<referenceContainer name=\"${1:content}\">",
+			"\t$0",
+			"</referenceContainer>"
+		],
+		"description": "<referenceContainer>: agrega bloques o cambia atributos de un contenedor existente.\nhttps://developer.adobe.com/commerce/frontend-core/guide/layouts/xml-instructions"
+	},
+	"layout: block con ViewModel": {
+		"prefix": "ac-layout-block",
+		"body": [
+			"<block class=\"Magento\\Framework\\View\\Element\\Template\" name=\"${1:vendor.module.example}\" template=\"${2:Vendor_Module}::${3:example.phtml}\">",
+			"\t<arguments>",
+			"\t\t<argument name=\"view_model\" xsi:type=\"object\">${4:Vendor\\Module\\ViewModel\\Example}</argument>",
+			"\t</arguments>",
+			"</block>"
+		],
+		"description": "<block> con template y un ViewModel en el argumento view_model.\nhttps://developer.adobe.com/commerce/php/development/components/view-models"
+	},
+	"layout: container": {
+		"prefix": "ac-layout-container",
+		"body": [
+			"<container name=\"${1:vendor.module.container}\" htmlTag=\"${2:div}\" htmlClass=\"${3:example}\">",
+			"\t$0",
+			"</container>"
+		],
+		"description": "<container> con etiqueta HTML y clase.\nhttps://developer.adobe.com/commerce/frontend-core/guide/layouts/xml-instructions"
+	},
+	"layout: move": {
+		"prefix": "ac-layout-move",
+		"body": [
+			"<move element=\"${1:product.info.sku}\" destination=\"${2:product.info.main}\" ${3|after,before|}=\"${4:-}\"/>"
+		],
+		"description": "<move>: lleva un bloque o contenedor a otro padre, antes o después de un hermano.\nhttps://developer.adobe.com/commerce/frontend-core/guide/layouts/xml-instructions"
+	},
+	"layout: remove": {
+		"prefix": "ac-layout-remove",
+		"body": [
+			"<${1|referenceBlock,referenceContainer|} name=\"${2:catalog.compare.sidebar}\" remove=\"true\"/>"
+		],
+		"description": "Quita un bloque o contenedor del layout con remove=\"true\".\nhttps://developer.adobe.com/commerce/frontend-core/guide/layouts/xml-instructions"
+	}
+}
