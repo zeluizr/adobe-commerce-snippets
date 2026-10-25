@@ -1,0 +1,112 @@
+{
+	"name": "adobe-commerce-snippets",
+	"displayName": "Adobe Commerce Snippets",
+	"description": "Snippets para Adobe Commerce (Magento Open Source y Adobe Commerce) y validación en vivo de los XML contra los XSD de tu propio proyecto.",
+	"version": "0.1.0",
+	"publisher": "commenteme",
+	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#005278",
+		"theme": "dark"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/zeluizr/adobe-commerce-snippets.git"
+	},
+	"homepage": "https://github.com/zeluizr/adobe-commerce-snippets#readme",
+	"bugs": {
+		"url": "https://github.com/zeluizr/adobe-commerce-snippets/issues"
+	},
+	"engines": {
+		"vscode": "^1.90.0",
+		"node": ">=18"
+	},
+	"categories": [
+		"Snippets",
+		"Linters"
+	],
+	"keywords": [
+		"adobe commerce",
+		"magento",
+		"magento 2",
+		"magento open source",
+		"xsd",
+		"xml",
+		"di.xml",
+		"layout",
+		"snippets",
+		"php"
+	],
+	"main": "./extension.js",
+	"activationEvents": [
+		"onLanguage:xml"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "php",
+				"extensions": [
+					".phtml"
+				]
+			},
+			{
+				"id": "graphql",
+				"aliases": [
+					"GraphQL",
+					"graphql"
+				],
+				"extensions": [
+					".graphqls"
+				]
+			}
+		],
+		"snippets": [
+			{
+				"language": "xml",
+				"path": "./snippets/xml.code-snippets"
+			},
+			{
+				"language": "php",
+				"path": "./snippets/php.code-snippets"
+			},
+			{
+				"language": "php",
+				"path": "./snippets/phtml.code-snippets"
+			},
+			{
+				"language": "javascript",
+				"path": "./snippets/javascript.code-snippets"
+			},
+			{
+				"language": "graphql",
+				"path": "./snippets/graphql.code-snippets"
+			}
+		],
+		"configuration": {
+			"title": "Adobe Commerce Snippets",
+			"properties": {
+				"adobeCommerceSnippets.validarXml": {
+					"type": "boolean",
+					"default": true,
+					"description": "Valida los XML que declaran un esquema urn:magento contra los XSD del propio proyecto (vendor/ o app/code/)."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"test": "node --test",
+		"gerar": "node scripts/gerar.js",
+		"check": "node scripts/gerar.js && git diff --exit-code -- snippets/ && node --test",
+		"xsd-teste": "node scripts/baixar-xsd-teste.js",
+		"empacotar": "npx --yes @vscode/vsce@3 package",
+		"icone": "node scripts/gerar-icone.js",
+		"preview": "node scripts/gerar-preview.js"
+	},
+	"dependencies": {
+		"libxml2-wasm": "0.7.2"
+	},
+	"devDependencies": {
+		"sharp": "^0.35.5"
+	}
+}

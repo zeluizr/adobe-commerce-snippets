@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# Cobra el flujo dev -> qa -> main al hacer push.
+#
+# Lo que protege: a qa llega solo lo que ya está en dev, y a main solo lo que ya pasó por
+# qa. La promoción es merge de la rama entera, nunca cherry-pick, y una rama publicada no
+# se reescribe. Lo que sube a qa o a main pasa antes por el gate.
+#
+# Emergencia: FORZAR_RAMAS=1 git push ...  (el CI cobra el flujo igual).
+set -uo pipefail
+
+[ "${FORZAR_RAMAS:-}" = "1" ] && exit 0
+
+VACIO=0000000000000000000000000000000000000000
+FALLA=0
+
+rechazar() {
+	printf '\033[31mPush rechazado.\033[0m %s\n' "$1"
+	FALLA=1
+}
+
+# El gate del proyecto: scripts/verificar.sh si existe; si no, el script "check" de npm.
+# Devuelve 2 cuando el proyecto no tiene gate.
+correr_gate() {
+	if [ -x ./scripts/verificar.sh ]; then
+		./scripts/verificar.sh
+	elif [ -f package.json ] && node -e 'process.exit(require("./package.json").scripts?.check ? 0 : 1)' 2>/dev/null; then
+		npm run --silent check
+	else
+		return 2
+	fi
+}
+
+git fetch --quiet origin 2>/dev/null || true
+
+while read -r _ref_local sha_local ref_remoto sha_remoto; do
+	# Los tags pasan: el que importa es el de la rama.
+	case "$ref_remoto" in
+		refs/heads/*) ;;
+		*) continue ;;
+	esac
+	RAMA="${ref_remoto#refs/heads/}"
+
+	if [ "$sha_local" = "$VACIO" ]; then
+		case "$RAMA" in
+			dev | qa | main) rechazar "borrar la rama $RAMA no se hace por push." ;;
+		esac
+		continue
+	fi
+
+	case "$RAMA" in
+		dev | qa | main)
+			if [ "$sha_remoto" != "$VACIO" ] && ! git merge-base --is-ancestor "$sha_remoto" "$sha_local" 2>/dev/null; then
+				rechazar "esto reescribiría $RAMA. En dev, qa y main no se hace force push."
+				continue
+			fi
+			;;
+	esac
+
+	case "$RAMA" in
+		qa) ANTERIOR=dev ;;
+		main) ANTERIOR=qa ;;
+		*) continue ;;
+	esac
+
+	if ! git rev-parse --verify --quiet "origin/$ANTERIOR" >/dev/null; then
+		rechazar "no encuentro origin/$ANTERIOR. $RAMA solo recibe lo que ya está en $ANTERIOR."
+		continue
+	fi
+
+	PROPIOS=$(git log --no-merges --format='    %h %s' "origin/$ANTERIOR..$sha_local")
+	if [ -n "$PROPIOS" ]; then
+		rechazar "$RAMA tiene commits que no están en origin/$ANTERIOR (¿falta hacer push de $ANTERIOR?):"
+		printf '%s\n' "$PROPIOS"
+	fi
+
+	if [ "$RAMA" = "main" ]; then
+		TAG=$(git describe --exact-match --tags "$sha_local" 2>/dev/null || echo "")
+		if [ -z "$TAG" ]; then
+			rechazar "el commit de main no tiene tag de versión. Usa ./scripts/release.sh <versión>."
+		elif [ "$(git cat-file -t "refs/tags/$TAG" 2>/dev/null)" != "tag" ]; then
+			rechazar "el tag $TAG es liviano. La versión de producción lleva tag anotado."
+		fi
+	fi
+
+	if [ "$FALLA" -eq 0 ]; then
+		correr_gate >/dev/null 2>&1
+		case $? in
+			0) ;;
+			2) printf '\033[33m⚠\033[0m el proyecto no tiene gate: %s sube sin verificar.\n' "$RAMA" ;;
+			*) rechazar "el gate falló. Córrelo a mano y lee la salida." ;;
+		esac
+	fi
+done
+
+exit "$FALLA"

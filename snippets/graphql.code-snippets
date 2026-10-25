@@ -1,0 +1,37 @@
+{
+	"schema.graphqls: query": {
+		"prefix": "ac-graphql-query",
+		"body": [
+			"type Query {",
+			"\t${1:example}(${2:id}: ${3:Int!}): ${4:ExampleOutput} @resolver(class: \"\\\\\\\\${5:Vendor\\\\\\Module\\\\\\Model\\\\\\Resolver\\\\\\Example}\") @doc(description: \"${6:Returns an example}\")",
+			"}",
+			"",
+			"type ${4:ExampleOutput} {",
+			"\t${7:name}: String @doc(description: \"${8:The name}\")",
+			"}"
+		],
+		"description": "etc/schema.graphqls: una query nueva con su resolver y su tipo de salida.\nhttps://developer.adobe.com/commerce/webapi/graphql/develop/"
+	},
+	"schema.graphqls: mutation": {
+		"prefix": "ac-graphql-mutation",
+		"body": [
+			"type Mutation {",
+			"\t${1:createExample}(input: ${2:CreateExampleInput!}): ${3:ExampleOutput} @resolver(class: \"\\\\\\\\${4:Vendor\\\\\\Module\\\\\\Model\\\\\\Resolver\\\\\\CreateExample}\") @doc(description: \"${5:Creates an example}\")",
+			"}",
+			"",
+			"input ${2:CreateExampleInput} {",
+			"\t${6:name}: String! @doc(description: \"${7:The name}\")",
+			"}"
+		],
+		"description": "Una mutation con un input propio y su resolver.\nhttps://developer.adobe.com/commerce/webapi/graphql/develop/resolvers"
+	},
+	"schema.graphqls: extender un tipo": {
+		"prefix": "ac-graphql-extend",
+		"body": [
+			"interface ${1:ProductInterface} {",
+			"\t${2:example_field}: ${3:String} @doc(description: \"${4:An example field}\") @resolver(class: \"\\\\\\\\${5:Vendor\\\\\\Module\\\\\\Model\\\\\\Resolver\\\\\\ExampleField}\")",
+			"}"
+		],
+		"description": "Agrega un campo a un tipo o interfaz existente (se fusiona con el schema.graphqls del módulo original).\nhttps://developer.adobe.com/commerce/webapi/graphql/develop/extend-existing-schema"
+	}
+}

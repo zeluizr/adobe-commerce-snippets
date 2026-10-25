@@ -1,0 +1,118 @@
+{
+	"requirejs-config.js": {
+		"prefix": "ac-requirejs-config",
+		"body": [
+			"var config = {",
+			"\tmap: {",
+			"\t\t'*': {",
+			"\t\t\t${1:alias}: '${2:Vendor_Module/js/example}'",
+			"\t\t}",
+			"\t},",
+			"\tpaths: {",
+			"\t\t'${3:library}': '${4:Vendor_Module/js/lib/library}'",
+			"\t},",
+			"\tconfig: {",
+			"\t\tmixins: {",
+			"\t\t\t'${5:Magento_Checkout/js/proceed-to-checkout}': {",
+			"\t\t\t\t'${6:Vendor_Module/js/proceed-to-checkout-mixin}': true",
+			"\t\t\t}",
+			"\t\t}",
+			"\t}",
+			"};"
+		],
+		"description": "view/<área>/requirejs-config.js con map, paths y mixins.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/requirejs"
+	},
+	"requirejs: map": {
+		"prefix": "ac-requirejs-map",
+		"body": [
+			"map: {",
+			"\t'${1:*}': {",
+			"\t\t${2:alias}: '${3:Vendor_Module/js/example}'",
+			"\t}",
+			"}"
+		],
+		"description": "map: un alias para un módulo AMD; con '*' vale para todos los módulos.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/requirejs"
+	},
+	"requirejs: paths": {
+		"prefix": "ac-requirejs-paths",
+		"body": [
+			"paths: {",
+			"\t'${1:alias}': '${2:Vendor_Module/js/lib/file}'",
+			"}"
+		],
+		"description": "paths: un alias para un archivo o una URL externa.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/requirejs"
+	},
+	"requirejs: mixins": {
+		"prefix": "ac-requirejs-mixins",
+		"body": [
+			"config: {",
+			"\tmixins: {",
+			"\t\t'${1:Magento_Checkout/js/proceed-to-checkout}': {",
+			"\t\t\t'${2:Vendor_Module/js/proceed-to-checkout-mixin}': true",
+			"\t\t}",
+			"\t}",
+			"}"
+		],
+		"description": "config.mixins: asocia un mixin a un componente. Con false se desactiva el mixin de otro módulo.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/mixins"
+	},
+	"mixin: componente UI": {
+		"prefix": "ac-mixin-component",
+		"body": [
+			"define(function () {",
+			"\t'use strict';",
+			"",
+			"\tvar mixin = {",
+			"\t\t${1:method}: function () {",
+			"\t\t\t$0",
+			"\t\t\treturn this._super();",
+			"\t\t}",
+			"\t};",
+			"",
+			"\treturn function (target) {",
+			"\t\treturn target.extend(mixin);",
+			"\t};",
+			"});"
+		],
+		"description": "Mixin de un componente UI: devuelve target.extend() con los métodos nuevos; this._super() llama al original.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/mixins"
+	},
+	"mixin: widget jQuery": {
+		"prefix": "ac-mixin-widget",
+		"body": [
+			"define(['jquery'], function (\\$) {",
+			"\t'use strict';",
+			"",
+			"\tvar widgetMixin = {",
+			"\t\t${2:_create}: function () {",
+			"\t\t\t$0",
+			"\t\t\treturn this._super();",
+			"\t\t}",
+			"\t};",
+			"",
+			"\treturn function (targetWidget) {",
+			"\t\t\\$.widget('${1:mage.modal}', targetWidget, widgetMixin);",
+			"\t\treturn \\$.${1:mage.modal};",
+			"\t};",
+			"});"
+		],
+		"description": "Mixin de un widget jQuery: redefine el widget con el mismo alias y lo devuelve.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/mixins"
+	},
+	"mixin: función": {
+		"prefix": "ac-mixin-function",
+		"body": [
+			"define([",
+			"\t'mage/utils/wrapper'",
+			"], function (wrapper) {",
+			"\t'use strict';",
+			"",
+			"\treturn function (${1:targetFunction}) {",
+			"\t\treturn wrapper.wrap(${1:targetFunction}, function (original${2:Function}) {",
+			"\t\t\tvar args = Array.prototype.slice.call(arguments, 1);",
+			"\t\t\t$0",
+			"\t\t\treturn original${2:Function}.apply(this, args);",
+			"\t\t});",
+			"\t};",
+			"});"
+		],
+		"description": "Mixin de un módulo que devuelve una función: la envuelve con mage/utils/wrapper.\nhttps://developer.adobe.com/commerce/frontend-core/javascript/mixins"
+	}
+}
