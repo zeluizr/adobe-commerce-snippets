@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# qa y main no reciben commits propios: reciben el merge de la rama anterior.
+# El trabajo nace en una rama que sale de dev y llega a dev por pull request.
+#
+# Emergencia: FORZAR_RAMAS=1 git commit ...  (el CI cobra el flujo igual).
+set -euo pipefail
+
+[ "${FORZAR_RAMAS:-}" = "1" ] && exit 0
+
+# Cerrar un merge con conflictos también pasa por aquí, y eso es promoción, no trabajo nuevo.
+[ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ] && exit 0
+
+RAMA=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+
+case "$RAMA" in
+	qa | main)
+		printf '\033[31mCommit rechazado.\033[0m La rama %s no recibe commits directos.\n\n' "$RAMA"
+		printf 'El trabajo nace en una rama que sale de dev:\n'
+		printf '  git switch dev && git switch -c feat/lo-que-sea\n'
+		printf 'y llega a %s por merge de la rama anterior (ver .githooks/pre-push).\n' "$RAMA"
+		exit 1
+		;;
+esac

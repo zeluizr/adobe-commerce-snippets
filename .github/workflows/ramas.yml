@@ -1,0 +1,52 @@
+# Cobra el flujo dev -> qa -> main en el servidor. Los hooks viven en el clon de cada
+# persona; quien hace push desde un clon sin hooks no los tiene, y por eso la misma regla
+# se cobra aquí.
+name: ramas
+
+on:
+  push:
+    branches: [qa, main]
+
+permissions:
+  contents: read
+
+jobs:
+  flujo:
+    name: flujo dev -> qa -> main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      # La promoción es merge de la rama entera: qa no tiene commits propios, solo merges
+      # de dev; main solo merges de qa, y el commit de main lleva tag anotado.
+      - name: qa solo recibe lo que ya está en dev
+        if: github.ref_name == 'qa'
+        run: |
+          git fetch --quiet origin dev
+          PROPIOS=$(git log --no-merges --format='%h %s' origin/dev.."$GITHUB_SHA")
+          if [ -n "$PROPIOS" ]; then
+            echo "::error::qa tiene commits que no están en dev:"
+            echo "$PROPIOS"
+            exit 1
+          fi
+      - name: main solo recibe lo que ya está en qa, con tag anotado
+        if: github.ref_name == 'main'
+        run: |
+          git fetch --quiet --tags origin qa
+          PROPIOS=$(git log --no-merges --format='%h %s' origin/qa.."$GITHUB_SHA")
+          if [ -n "$PROPIOS" ]; then
+            echo "::error::main tiene commits que no están en qa:"
+            echo "$PROPIOS"
+            exit 1
+          fi
+          TAG=$(git describe --exact-match --tags "$GITHUB_SHA" 2>/dev/null || true)
+          if [ -z "$TAG" ]; then
+            echo "::error::el commit de main no tiene tag de versión"
+            exit 1
+          fi
+          if [ "$(git cat-file -t "refs/tags/$TAG")" != "tag" ]; then
+            echo "::error::el tag $TAG no es anotado"
+            exit 1
+          fi

@@ -1,0 +1,26 @@
+Adobe Commerce Snippets
+Copyright (c) 2026 José Luiz Rodrigues (commente.me). Licencia MIT (ver LICENSE).
+
+Este proyecto no incluye código ni esquemas XSD de magento/magento2 (OSL-3.0). La
+validación lee los XSD del proyecto abierto en el editor, en vendor/ o app/code/.
+
+Fuentes de la documentación (los snippets se escribieron a mano a partir de ellas,
+sin copiar código de magento/magento2; los commits están en data/fonte.json):
+
+  AdobeDocs/commerce-php (https://github.com/AdobeDocs/commerce-php)
+  AdobeDocs/commerce-frontend-core (https://github.com/AdobeDocs/commerce-frontend-core)
+  AdobeDocs/commerce-webapi (https://github.com/AdobeDocs/commerce-webapi)
+    Copyright Adobe. Licencia Apache-2.0.
+  AdobeDocs/commerce-operations.en (https://github.com/AdobeDocs/commerce-operations.en)
+    Copyright Adobe. Licencia MIT.
+
+Dependencia incluida en el paquete:
+
+  libxml2-wasm 0.7.2 (https://github.com/jameslan/libxml2-wasm)
+    Copyright (c) 2023 James Lan. Licencia MIT.
+    Incluye una compilación en WebAssembly de libxml2
+    (https://gitlab.gnome.org/GNOME/libxml2), Copyright (C) 1998-2012 Daniel Veillard
+    y The Libxml2 Contributors. Licencia MIT.
+    Los textos completos están en node_modules/libxml2-wasm/LICENSE y LICENSE.libxml2.
+
+Adobe Commerce y Magento son marcas de Adobe. Esta extensión no está afiliada a Adobe.

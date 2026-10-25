@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fixture dos testes, escrita para este repositório: inclui um XSD que não existe. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="urn:magento:module:Exemplo_Ausente:etc/tipos.xsd"/>
+	<xs:element name="config" type="nomeType"/>
+</xs:schema>

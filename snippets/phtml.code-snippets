@@ -1,0 +1,50 @@
+{
+	"phtml: cabecera": {
+		"prefix": "ac-phtml",
+		"body": [
+			"<?php",
+			"/** @var \\Magento\\Framework\\View\\Element\\Template \\$block */",
+			"/** @var \\Magento\\Framework\\Escaper \\$escaper */",
+			"/** @var \\\\${1:Vendor\\Module\\ViewModel\\Example} \\$viewModel */",
+			"\\$viewModel = \\$block->getViewModel();",
+			"?>",
+			"$0"
+		],
+		"description": "Cabecera de un template: tipos de $block, $escaper y del ViewModel recibido en view_model.\nhttps://developer.adobe.com/commerce/php/development/components/view-models"
+	},
+	"escaper: html": {
+		"prefix": "ac-esc-html",
+		"body": [
+			"<?= \\$escaper->escapeHtml(${1:\\$block->getTitle()}) ?>"
+		],
+		"description": "escapeHtml: texto dentro de HTML.\nhttps://developer.adobe.com/commerce/php/development/security/cross-site-scripting"
+	},
+	"escaper: html con etiquetas": {
+		"prefix": "ac-esc-html-tags",
+		"body": [
+			"<?= \\$escaper->escapeHtml(__('${1:Texto con <a href=\"%1\">enlace</a>}', ${2:\\$block->getUrl()}), ['${3:a}']) ?>"
+		],
+		"description": "escapeHtml con la lista de etiquetas permitidas (por ejemplo, enlaces dentro de una frase traducida).\nhttps://developer.adobe.com/commerce/php/development/security/cross-site-scripting"
+	},
+	"escaper: atributo": {
+		"prefix": "ac-esc-attr",
+		"body": [
+			"<?= \\$escaper->escapeHtmlAttr(${1:\\$value}) ?>"
+		],
+		"description": "escapeHtmlAttr: valor de un atributo HTML.\nhttps://developer.adobe.com/commerce/php/development/security/cross-site-scripting"
+	},
+	"escaper: url": {
+		"prefix": "ac-esc-url",
+		"body": [
+			"<?= \\$escaper->escapeUrl(${1:\\$block->getUrl()}) ?>"
+		],
+		"description": "escapeUrl: URL en href o src.\nhttps://developer.adobe.com/commerce/php/development/security/cross-site-scripting"
+	},
+	"escaper: js": {
+		"prefix": "ac-esc-js",
+		"body": [
+			"<?= \\$escaper->escapeJs(${1:\\$value}) ?>"
+		],
+		"description": "escapeJs: cadena dentro de JavaScript. Dentro de un atributo onclick, envuélvelo además en escapeHtmlAttr.\nhttps://developer.adobe.com/commerce/php/development/security/cross-site-scripting"
+	}
+}

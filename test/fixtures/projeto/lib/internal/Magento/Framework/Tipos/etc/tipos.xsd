@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fixture dos testes, escrita para este repositório: tipos compartilhados. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="nomeType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z_]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

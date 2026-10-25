@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fixture dos testes, escrita para este repositório: inclui outro XSD por URN. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="urn:magento:framework:Tipos/etc/tipos.xsd"/>
+	<xs:element name="config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="name" type="nomeType" use="required"/>
+						<xs:attribute name="sortOrder" type="xs:int"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
