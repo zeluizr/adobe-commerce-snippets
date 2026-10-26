@@ -2,7 +2,7 @@
 	"name": "adobe-commerce-snippets",
 	"displayName": "Adobe Commerce Snippets",
 	"description": "Snippets para Adobe Commerce (Magento Open Source y Adobe Commerce) y validación en vivo de los XML contra los XSD de tu propio proyecto.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"publisher": "commenteme",
 	"icon": "images/icon.png",
 	"galleryBanner": {
