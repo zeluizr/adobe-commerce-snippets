@@ -72,7 +72,7 @@ test("o README lista todo prefixo e segue as regras de texto", () => {
 		assert.doesNotMatch(texto, /\b(Claude|ChatGPT|Copilot|IA generativa)\b/, arquivo);
 	}
 	assert.match(readme, /_Hecho con amor y café por \[commente\.me\]\(https:\/\/commente\.me\)_/);
-	assert.equal(pacote.displayName, "Snippets for Adobe Commerce");
+	assert.equal(pacote.displayName, "Adobe Commerce Snippets");
 	assert.equal(`${pacote.publisher}.${pacote.name}`, "commenteme.adobe-commerce-snippets");
 });
 
