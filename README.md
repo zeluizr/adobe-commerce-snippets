@@ -7,13 +7,13 @@ escribes cada `di.xml`, `events.xml`, `db_schema.xml`, layout y demás XML que d
 contra los XSD de la versión exacta que tu tienda tiene instalada, y trae snippets de XML, PHP, templates, RequireJS
 y GraphQL escritos a partir de la documentación oficial.
 
-[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.adobe-commerce-snippets?label=marketplace&color=005278)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
+[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.adobe-commerce-snippets?label=marketplace&color=F26322)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
 [![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.adobe-commerce-snippets?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
 [![licencia](https://badgen.net/github/license/zeluizr/adobe-commerce-snippets?label=licencia)](./LICENSE)
 
 ![Validación de un di.xml contra el XSD del proyecto y snippets ac-di-](images/preview.png)
 
-Versión del código: **0.1.1**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
+Versión del código: **0.1.2**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
 
 ---
 
