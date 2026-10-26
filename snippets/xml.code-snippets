@@ -59,6 +59,19 @@
 		],
 		"description": "<argument> de tipo array con <item>.\nhttps://developer.adobe.com/commerce/php/development/build/dependency-injection-file"
 	},
+	"di.xml: comando de consola": {
+		"prefix": "ac-di-command",
+		"body": [
+			"<type name=\"Magento\\Framework\\Console\\CommandList\">",
+			"\t<arguments>",
+			"\t\t<argument name=\"commands\" xsi:type=\"array\">",
+			"\t\t\t<item name=\"${1:vendor_module_example}\" xsi:type=\"object\">${2:Vendor\\Module\\Console\\Command\\Example}</item>",
+			"\t\t</argument>",
+			"\t</arguments>",
+			"</type>"
+		],
+		"description": "Registra un comando de consola de bin/magento en el argumento commands de Magento\\Framework\\Console\\CommandList.\nhttps://developer.adobe.com/commerce/php/development/cli-commands/custom"
+	},
 	"di.xml: virtualType": {
 		"prefix": "ac-di-virtualtype",
 		"body": [
@@ -171,6 +184,25 @@
 		],
 		"description": "etc/acl.xml: recursos de ACL bajo Magento_Backend::admin.\nhttps://developer.adobe.com/commerce/php/tutorials/backend/create-access-control-list-rule"
 	},
+	"menu.xml": {
+		"prefix": "ac-menu",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Magento_Backend:etc/menu.xsd\">",
+			"\t<menu>",
+			"\t\t<add id=\"${1:Vendor_Module}::${2:example}\" title=\"${3:Example}\" translate=\"title\" module=\"${1:Vendor_Module}\" parent=\"${4:Magento_Backend::content}\" sortOrder=\"${5:50}\" action=\"${6:example/index}\" resource=\"${1:Vendor_Module}::${2:example}\"/>",
+			"\t</menu>",
+			"</config>"
+		],
+		"description": "etc/adminhtml/menu.xml: una entrada del menú del Admin que abre una ruta, protegida por un recurso de acl.xml.\nhttps://developer.adobe.com/commerce/php/tutorials/admin/create-admin-page"
+	},
+	"menu.xml: add": {
+		"prefix": "ac-menu-add",
+		"body": [
+			"<add id=\"${1:Vendor_Module}::${2:example}\" title=\"${3:Example}\" translate=\"title\" module=\"${1:Vendor_Module}\" parent=\"${4:Magento_Backend::content}\" sortOrder=\"${5:10}\" action=\"${6:example/index}\" resource=\"${1:Vendor_Module}::${2:example}\"/>"
+		],
+		"description": "<add>: un ítem del menú del Admin. Sin action es un grupo; el resource es el de acl.xml.\nhttps://developer.adobe.com/commerce/php/tutorials/admin/create-admin-page"
+	},
 	"system.xml": {
 		"prefix": "ac-system",
 		"body": [
@@ -218,6 +250,34 @@
 			"</config>"
 		],
 		"description": "etc/config.xml: valores por defecto de la configuración (section/group/field).\nhttps://experienceleague.adobe.com/en/docs/commerce-operations/configuration-guide/files/module-files"
+	},
+	"extension_attributes.xml": {
+		"prefix": "ac-extension-attributes",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<config xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:framework:Api/etc/extension_attributes.xsd\">",
+			"\t<extension_attributes for=\"${1:Magento\\Sales\\Api\\Data\\OrderInterface}\">",
+			"\t\t<attribute code=\"${2:example}\" type=\"${3:string}\"/>",
+			"\t</extension_attributes>",
+			"</config>"
+		],
+		"description": "etc/extension_attributes.xml: agrega un atributo de extensión a la interfaz de datos de un service contract.\nhttps://developer.adobe.com/commerce/php/development/components/attributes"
+	},
+	"csp_whitelist.xml": {
+		"prefix": "ac-csp-whitelist",
+		"body": [
+			"<?xml version=\"1.0\"?>",
+			"<csp_whitelist xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd\">",
+			"\t<policies>",
+			"\t\t<policy id=\"${1|script-src,connect-src,img-src,style-src,font-src,frame-src,media-src,form-action|}\">",
+			"\t\t\t<values>",
+			"\t\t\t\t<value id=\"${2:example}\" type=\"host\">${3:https://example.com}</value>",
+			"\t\t\t</values>",
+			"\t\t</policy>",
+			"\t</policies>",
+			"</csp_whitelist>"
+		],
+		"description": "etc/csp_whitelist.xml: autoriza un host en una directiva de la Content Security Policy.\nhttps://developer.adobe.com/commerce/php/development/security/content-security-policies"
 	},
 	"crontab.xml": {
 		"prefix": "ac-crontab",

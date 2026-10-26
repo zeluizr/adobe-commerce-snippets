@@ -5,6 +5,25 @@ las versiones siguen [SemVer](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+### Agregado
+
+- Snippets `ac-menu` y `ac-menu-add` (`etc/adminhtml/menu.xml`), `ac-extension-attributes`
+  (`etc/extension_attributes.xml`), `ac-csp-whitelist` (`etc/csp_whitelist.xml`), `ac-di-command` (un comando de
+  consola en el `CommandList` del `di.xml`) y `ac-console-command` (la clase del comando).
+
+### Corregido
+
+- Los módulos cuyo `registration.php` lleva una coma después de `__DIR__` (el estilo PER-CS 2.0 en llamadas de
+  varias líneas) no se reconocían, y sus XML quedaban sin validar.
+- Un `xsi:type` inválido se informa como `xsi:type`, no como `{http://www.w3.org/2001/XMLSchema-instance}type`, y el
+  subrayado cae en el atributo y no en la etiqueta. Ya no se agrega el error de «tipo abstracto» que solo repetía el
+  mismo problema, ni los «Internal error» del propio libxml2, que no hablan del XML.
+
+### Cambiado
+
+- Un `composer install` o un `git checkout` que cambian cientos de `registration.php` releen los componentes y
+  revalidan los XML abiertos una sola vez, cuando terminan, y no una vez por archivo.
+
 ## [0.1.3] - 2026-10-26
 
 ### Cambiado
