@@ -10,7 +10,7 @@ const vscode = require("vscode");
 const { criarValidador } = require("./lib/validador");
 
 const ESPERA_MS = 400;
-const NOME = "Snippets for Adobe Commerce";
+const NOME = "Adobe Commerce Snippets";
 
 /** @param {vscode.ExtensionContext} contexto */
 function activate(contexto) {

@@ -93,7 +93,7 @@ test("activate valida o XML aberto e publica o diagnóstico", async () => {
 		await ouvintes.abrir[0](documento(arquivo, texto));
 		const lista = diagnosticos.get(`file://${arquivo}`) || [];
 		assert.equal(lista.length, 2, JSON.stringify(lista));
-		assert.ok(lista.every((d) => d.source === "Snippets for Adobe Commerce"));
+		assert.ok(lista.every((d) => d.source === "Adobe Commerce Snippets"));
 		assert.deepEqual(lista[0].range.start, { line: 2, character: 7 });
 		for (const s of subscriptions) s.dispose();
 	} finally {
