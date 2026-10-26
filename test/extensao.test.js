@@ -2,7 +2,8 @@
 "use strict";
 
 // O extension.js com um `vscode` falso: abre um XML inválido e confere que o
-// diagnóstico chega à coleção, com a posição convertida e a fonte certa.
+// diagnóstico chega à coleção, com a posição convertida e a fonte certa, e
+// que uma rajada de registration.php mudados vira uma releitura só.
 
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -16,6 +17,8 @@ function vscodeFalso() {
 	const diagnosticos = new Map();
 	/** @type {Record<string, Function[]>} */
 	const ouvintes = {};
+	/** @type {Function[]} */
+	const observadores = [];
 	const ouvir = (/** @type {string} */ nome) => (/** @type {Function} */ f) => {
 		(ouvintes[nome] ||= []).push(f);
 		return { dispose() {} };
@@ -51,7 +54,10 @@ function vscodeFalso() {
 		workspace: {
 			textDocuments: /** @type {any[]} */ ([]),
 			getConfiguration: () => ({ get: (/** @type {string} */ _k, /** @type {any} */ padrao) => padrao }),
-			createFileSystemWatcher: () => ({ onDidCreate() {}, onDidChange() {}, onDidDelete() {}, dispose() {} }),
+			createFileSystemWatcher: () => {
+				const ouvir = (/** @type {Function} */ f) => observadores.push(f);
+				return { onDidCreate: ouvir, onDidChange: ouvir, onDidDelete: ouvir, dispose() {} };
+			},
 			onDidOpenTextDocument: ouvir("abrir"),
 			onDidSaveTextDocument: ouvir("salvar"),
 			onDidChangeTextDocument: ouvir("mudar"),
@@ -59,7 +65,7 @@ function vscodeFalso() {
 			onDidChangeConfiguration: ouvir("config")
 		}
 	};
-	return { vscode, diagnosticos, ouvintes };
+	return { vscode, diagnosticos, ouvintes, observadores };
 }
 
 /** @param {string} arquivo @param {string} texto */
@@ -77,14 +83,27 @@ function documento(arquivo, texto) {
 	};
 }
 
-test("activate valida o XML aberto e publica o diagnóstico", async () => {
-	const { vscode, diagnosticos, ouvintes } = vscodeFalso();
+/**
+ * Carrega o extension.js com o `vscode` falso. Cada chamada lê o módulo de novo.
+ * @param {any} vscode
+ */
+function carregarExtensao(vscode) {
 	const carregar = /** @type {any} */ (Module)._load;
 	/** @type {any} */ (Module)._load = function (/** @type {string} */ pedido, /** @type {any[]} */ ...resto) {
 		return pedido === "vscode" ? vscode : carregar.call(this, pedido, ...resto);
 	};
 	try {
-		const extensao = require("../extension");
+		delete require.cache[require.resolve("../extension")];
+		return require("../extension");
+	} finally {
+		/** @type {any} */ (Module)._load = carregar;
+	}
+}
+
+test("activate valida o XML aberto e publica o diagnóstico", async () => {
+	const { vscode, diagnosticos, ouvintes } = vscodeFalso();
+	{
+		const extensao = carregarExtensao(vscode);
 		/** @type {{ dispose: Function }[]} */
 		const subscriptions = [];
 		extensao.activate({ subscriptions });
@@ -96,7 +115,33 @@ test("activate valida o XML aberto e publica o diagnóstico", async () => {
 		assert.ok(lista.every((d) => d.source === "Snippets for Adobe Commerce"));
 		assert.deepEqual(lista[0].range.start, { line: 2, character: 7 });
 		for (const s of subscriptions) s.dispose();
-	} finally {
-		/** @type {any} */ (Module)._load = carregar;
 	}
+});
+
+test("uma rajada de registration.php mudados relê os componentes uma vez só", async (t) => {
+	const { vscode, observadores } = vscodeFalso();
+	const arquivo = path.join(PROJETO, "app/code/Exemplo/Teste/etc/teste.xml");
+	const doc = documento(arquivo, `<?xml version="1.0"?>\n<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Exemplo_Teste:etc/teste.xsd"/>\n`);
+	let leituras = 0;
+	const getText = doc.getText;
+	doc.getText = () => {
+		leituras++;
+		return getText();
+	};
+	vscode.workspace.textDocuments = [doc];
+	t.mock.timers.enable({ apis: ["setTimeout"] });
+	const extensao = carregarExtensao(vscode);
+	/** @type {{ dispose: Function }[]} */
+	const subscriptions = [];
+	extensao.activate({ subscriptions });
+	t.after(() => subscriptions.forEach((s) => s.dispose()));
+	assert.equal(leituras, 1, "a validação inicial");
+	assert.ok(observadores.length >= 3);
+	for (let i = 0; i < 300; i++) observadores[i % observadores.length]({ fsPath: `/p/vendor/v${i}/registration.php` });
+	t.mock.timers.tick(999);
+	assert.equal(leituras, 1, "nada durante a rajada");
+	t.mock.timers.tick(1);
+	assert.equal(leituras, 2, "uma revalidação ao fim da rajada");
+	t.mock.timers.tick(5000);
+	assert.equal(leituras, 2);
 });
