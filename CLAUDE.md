@@ -60,7 +60,7 @@ termina em `.xsd`. Fonte: commerce-php `development/build/schema-validation.md` 
 ## Marca
 
 Segue o kit de marca da commente.me (skill `marca-commente`): o ícone é o **ladrillo de produto para devs**
-(`images/icon.svg`, montado pela regra do kit v7, que ainda não traz este SVG: o de snippets com o destaque trocado): destaque em laranja Adobe Commerce `#F26322` e glifo `</>` no quarto bloco; o banner do Marketplace é `--azul` (`#005278`), o nome não leva "by commente.me" e
+(`images/icon.svg`, montado pela regra do kit v7, que ainda não traz este SVG: o de snippets com o destaque trocado): destaque em laranja Adobe Commerce `#F26322` e glifo `</>` no quarto bloco; o banner do Marketplace é a cor da plataforma (`#F26322`, laranja Adobe Commerce) com texto escuro (`theme: light`), e o ícone tem o raio do ladrillo (`rx="22"`), o nome não leva "by commente.me" e
 o README assina "Hecho con amor y café por commente.me", sem citar ferramenta de IA e sem travessão. Sempre
 «Adobe Commerce»; «Magento» só entre parênteses na primeira menção técnica; nunca «Adobe» sozinho para a plataforma.
 
