@@ -7,6 +7,8 @@ las versiones siguen [SemVer](https://semver.org/lang/es/).
 
 ### Cambiado
 
+- El nombre visible pasa a ser «Snippets for Adobe Commerce», como pide la marca de commente.me para los productos para devs. El
+  identificador no cambia: quien ya la tiene instalada no pierde nada.
 - Nuevo ícono de producto para devs del kit de marca v7: el ladrillo de commente.me con el destaque en el naranja de
   Adobe Commerce y el glifo `</>` de snippets.
 
