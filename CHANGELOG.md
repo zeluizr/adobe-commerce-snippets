@@ -5,6 +5,11 @@ las versiones siguen [SemVer](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+### Cambiado
+
+- Nuevo ícono de producto para devs del kit de marca v7: el ladrillo de commente.me con el destaque en el naranja de
+  Adobe Commerce y el glifo `</>` de snippets.
+
 ## [0.1.0] - 2026-10-25
 
 ### Agregado
