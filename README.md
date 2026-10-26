@@ -13,7 +13,7 @@ y GraphQL escritos a partir de la documentación oficial.
 
 ![Validación de un di.xml contra el XSD del proyecto y snippets ac-di-](images/preview.png)
 
-Versión del código: **0.1.3**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
+Versión del código: **0.2.0**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
 
 ---
 
@@ -84,12 +84,16 @@ Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la list
 | `ac-di-type`, `ac-di-array` | `<type>` con `<arguments>`, argumento de tipo array |
 | `ac-di-virtualtype` | `<virtualType>` |
 | `ac-di-plugin` | `<type>` con `<plugin>` |
+| `ac-di-command` | Comando de consola en `CommandList` |
 | `ac-events`, `ac-event` | `etc/events.xml`, `<event>` con `<observer>` |
 | `ac-routes`, `ac-routes-admin` | `routes.xml` del frontend y del Admin |
 | `ac-webapi`, `ac-webapi-route` | `etc/webapi.xml`, una `<route>` con su recurso |
 | `ac-acl` | `etc/acl.xml` |
+| `ac-menu`, `ac-menu-add` | `etc/adminhtml/menu.xml`, un ítem `<add>` del menú del Admin |
 | `ac-system`, `ac-system-field` | `etc/adminhtml/system.xml`, un `<field>` |
 | `ac-config` | `etc/config.xml` con valores por defecto |
+| `ac-extension-attributes` | `etc/extension_attributes.xml` |
+| `ac-csp-whitelist` | `etc/csp_whitelist.xml` con un host autorizado |
 | `ac-crontab`, `ac-cron-job` | `etc/crontab.xml`, un `<group>` con `<job>` |
 | `ac-communication` | `etc/communication.xml` |
 | `ac-queue-consumer`, `ac-queue-publisher`, `ac-queue-topology` | Los `queue_*.xml` de la cola de mensajes |
@@ -125,6 +129,7 @@ Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la list
 | `ac-data-patch`, `ac-schema-patch` | Data patch y schema patch |
 | `ac-cron` | Clase de un cron job |
 | `ac-consumer` | Consumer de la cola de mensajes |
+| `ac-console-command` | Comando de consola de `bin/magento` |
 | `ac-resolver` | Resolver de GraphQL |
 | `ac-service-contract` | Interfaz de repositorio en `Api/` |
 

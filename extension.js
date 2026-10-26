@@ -10,6 +10,9 @@ const vscode = require("vscode");
 const { criarValidador } = require("./lib/validador");
 
 const ESPERA_MS = 400;
+// Um composer install ou um git checkout mexem em centenas de registration.php
+// de uma vez. Junta a rajada e relê os componentes uma vez só, quando ela acaba.
+const ESPERA_COMPONENTES_MS = 1000;
 const NOME = "Snippets for Adobe Commerce";
 
 /** @param {vscode.ExtensionContext} contexto */
@@ -79,12 +82,18 @@ function activate(contexto) {
 
 	// Um módulo novo, um composer install ou um registration.php editado mudam o
 	// mapa de componentes. Os XSD em si são conferidos pela data de modificação.
-	const observadores = ["**/registration.php", "**/vendor/composer/autoload_files.php"].map((padrao) => {
-		const w = vscode.workspace.createFileSystemWatcher(padrao);
-		const esquecer = () => {
+	/** @type {NodeJS.Timeout | undefined} */
+	let recarga;
+	const esquecer = () => {
+		if (recarga) clearTimeout(recarga);
+		recarga = setTimeout(() => {
+			recarga = undefined;
 			validador.esquecer();
 			revalidarTudo();
-		};
+		}, ESPERA_COMPONENTES_MS);
+	};
+	const observadores = ["**/registration.php", "**/vendor/composer/autoload_files.php"].map((padrao) => {
+		const w = vscode.workspace.createFileSystemWatcher(padrao);
 		w.onDidCreate(esquecer);
 		w.onDidChange(esquecer);
 		w.onDidDelete(esquecer);
@@ -103,7 +112,12 @@ function activate(contexto) {
 		vscode.workspace.onDidChangeConfiguration((e) => {
 			if (e.affectsConfiguration("adobeCommerceSnippets")) revalidarTudo();
 		}),
-		{ dispose: () => pendentes.forEach((t) => clearTimeout(t)) }
+		{
+			dispose: () => {
+				pendentes.forEach((t) => clearTimeout(t));
+				if (recarga) clearTimeout(recarga);
+			}
+		}
 	);
 
 	revalidarTudo();

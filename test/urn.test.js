@@ -57,6 +57,14 @@ test("lerRegistro lê as formas de ComponentRegistrar::register", () => {
 		lerRegistro(`\\Magento\\Framework\\Component\\ComponentRegistrar::register(\n\t\\Magento\\Framework\\Component\\ComponentRegistrar::LIBRARY,\n\t"magento/framework-amqp",\n\t__DIR__ . '/src'\n);`),
 		[{ tipo: "LIBRARY", nome: "magento/framework-amqp", sufixo: "/src" }]
 	);
+	assert.deepEqual(
+		lerRegistro("ComponentRegistrar::register(\n\tComponentRegistrar::MODULE,\n\t'Vendor_Module',\n\t__DIR__,\n);"),
+		[{ tipo: "MODULE", nome: "Vendor_Module", sufixo: "" }],
+		"vírgula final do PER-CS 2.0"
+	);
+	assert.deepEqual(lerRegistro("ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Vendor_Module', __DIR__ . '/src',);"), [
+		{ tipo: "MODULE", nome: "Vendor_Module", sufixo: "/src" }
+	]);
 	assert.deepEqual(lerRegistro("<?php echo 'nada';"), []);
 });
 

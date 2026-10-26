@@ -341,6 +341,38 @@
 		],
 		"description": "Consumer de la cola de mensajes: el handler de queue_consumer.xml recibe el mensaje del topic.\nhttps://developer.adobe.com/commerce/php/development/components/message-queues/configuration"
 	},
+	"comando de consola": {
+		"prefix": "ac-console-command",
+		"body": [
+			"<?php",
+			"",
+			"declare(strict_types=1);",
+			"",
+			"namespace ${1:Vendor}\\\\${2:Module}\\Console\\Command;",
+			"",
+			"use Symfony\\Component\\Console\\Command\\Command;",
+			"use Symfony\\Component\\Console\\Input\\InputInterface;",
+			"use Symfony\\Component\\Console\\Output\\OutputInterface;",
+			"",
+			"class ${3:Example}Command extends Command",
+			"{",
+			"\tprotected function configure(): void",
+			"\t{",
+			"\t\t\\$this->setName('${4:vendor:example}');",
+			"\t\t\\$this->setDescription('${5:Descripción del comando.}');",
+			"",
+			"\t\tparent::configure();",
+			"\t}",
+			"",
+			"\tprotected function execute(InputInterface \\$input, OutputInterface \\$output): int",
+			"\t{",
+			"\t\t$0",
+			"\t\treturn Command::SUCCESS;",
+			"\t}",
+			"}"
+		],
+		"description": "Comando de bin/magento (Console/Command): extiende Command de Symfony. Se registra en di.xml con ac-di-command.\nhttps://developer.adobe.com/commerce/php/development/cli-commands/custom"
+	},
 	"resolver GraphQL": {
 		"prefix": "ac-resolver",
 		"body": [
