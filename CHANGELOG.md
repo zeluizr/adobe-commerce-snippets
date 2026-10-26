@@ -5,6 +5,8 @@ las versiones siguen [SemVer](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+## [0.2.0] - 2026-10-26
+
 ### Agregado
 
 - Snippets `ac-menu` y `ac-menu-add` (`etc/adminhtml/menu.xml`), `ac-extension-attributes`
