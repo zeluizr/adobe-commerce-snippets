@@ -1,63 +1,50 @@
+<p align="center">
+  <img src="assets/banner.png" width="100%" alt="Snippets for Adobe Commerce · Snippets y validación en vivo de los XML contra los XSD de tu propio proyecto">
+</p>
+
 # Snippets for Adobe Commerce
 
 **Snippets para Adobe Commerce y validación en vivo de los XML contra los XSD de tu propio proyecto.**
 
-Extensión de VS Code para el desarrollo PHP de Adobe Commerce (Magento Open Source y Adobe Commerce): valida mientras
-escribes cada `di.xml`, `events.xml`, `db_schema.xml`, layout y demás XML que declare un esquema `urn:magento:...`,
-contra los XSD de la versión exacta que tu tienda tiene instalada, y trae snippets de XML, PHP, templates, RequireJS
-y GraphQL escritos a partir de la documentación oficial.
-
-[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.adobe-commerce-snippets?label=marketplace&color=F26322)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
-[![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.adobe-commerce-snippets?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
-[![licencia](https://badgen.net/github/license/zeluizr/adobe-commerce-snippets?label=licencia)](./LICENSE)
-
-![Validación de un di.xml contra el XSD del proyecto y snippets ac-di-](images/preview.png)
-
-Versión del código: **0.2.1**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
-
----
-
-## Por qué otra extensión
-
-Hay extensiones de snippets para Adobe Commerce en el Marketplace, la mayoría sin cambios desde hace años, y hay
-herramientas que generan archivos y navegan entre clases. **Ninguna valida el XML en vivo contra los XSD.** Hasta
-ahora, eso pedía generar un catálogo de URN con `bin/magento dev:urn-catalog:generate` y otra extensión de XML con su
-propio servidor de lenguaje. Esta extensión lo hace sola:
-
-- **Lee los XSD del proyecto abierto**, en `vendor/` o en `app/code/`, resolviendo la URN del
-  `xsi:noNamespaceSchemaLocation`. Valida contra la versión que tu tienda usa, no contra una copia vieja.
-- **Resuelve también los `xs:include` y `xs:redefine` de los XSD**, que usan URN igual que los XML.
-- **La validación no da falsos positivos**: si no encuentra un XSD, no marca nada. Se prueba contra los más de 2.400
-  XML del núcleo de la plataforma, sin un solo error.
-- **Sin binarios ni Java**: usa libxml2 compilado en WebAssembly, el mismo motor de validación que usa la plataforma,
-  y funciona igual en macOS, Linux y Windows.
-- **Snippets con fuente**: cada uno cita la página de la documentación de la que salió, y los de XML se validan en
-  los tests contra los XSD oficiales.
+[![version](https://img.shields.io/github/package-json/v/zeluizr/adobe-commerce-snippets/main?label=version&labelColor=005278&color=FFBD38)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
+[![license](https://img.shields.io/github/license/zeluizr/adobe-commerce-snippets?label=licencia&labelColor=005278&color=FFBD38)](LICENSE)
 
 ## Instalación
-
-Desde el VS Code Marketplace: busca **«Snippets for Adobe Commerce»**, o desde Quick Open (`Cmd/Ctrl + P`):
-
-```
-ext install commenteme.adobe-commerce-snippets
-```
-
-Desde el terminal:
 
 ```bash
 code --install-extension commenteme.adobe-commerce-snippets
 ```
 
-## Uso
+O busca **«Snippets for Adobe Commerce»** en el Marketplace, o en Quick Open (`Cmd/Ctrl + P`): `ext install commenteme.adobe-commerce-snippets`. Requiere VS Code `>= 1.90.0`.
+
+## Uso rápido
+
+Abre un `di.xml` de tu módulo y escribe `ac-di-`: el editor muestra los snippets. Si el XML declara un esquema `urn:magento:...`, los errores aparecen subrayados en el atributo o la etiqueta exactos, al abrir, al guardar y mientras escribes.
+
+![Validación de un di.xml contra el XSD del proyecto y snippets ac-di-](images/preview.png)
+
+## Que incluye
+
+Para el desarrollo PHP de Adobe Commerce (Magento Open Source): cada `di.xml`, `events.xml`, `db_schema.xml`, layout y demás XML se valida contra los XSD de la versión exacta que tu tienda tiene instalada.
+
+- **Lee los XSD del proyecto abierto**, en `vendor/` o en `app/code/`, resolviendo la URN del `xsi:noNamespaceSchemaLocation`. Valida contra la versión que tu tienda usa, no contra una copia vieja.
+- **Resuelve también los `xs:include` y `xs:redefine` de los XSD**, que usan URN igual que los XML.
+- **Sin falsos positivos**: si no encuentra un XSD, no marca nada. Se prueba contra los mas de 2.400 XML del núcleo de la plataforma, sin un solo error.
+- **Sin binarios ni Java**: usa libxml2 compilado en WebAssembly, el mismo motor de validación que usa la plataforma, y funciona igual en macOS, Linux y Windows.
+- **Snippets con fuente** de XML, PHP, templates, RequireJS y GraphQL: cada uno cita la página de la documentación de la que salió, y los de XML se validan en los tests contra los XSD oficiales.
+
+## Por que existe
+
+Hay extensiones de snippets para Adobe Commerce en el Marketplace, la mayoría sin cambios desde hace años, y hay herramientas que generan archivos y navegan entre clases. Ninguna valida el XML en vivo contra los XSD. Hasta ahora, eso pedía generar un catálogo de URN con `bin/magento dev:urn-catalog:generate` y otra extensión de XML con su propio servidor de lenguaje. Esta lo hace sola.
+
+## Documentación
 
 ### Validación de XML
 
-Abre cualquier XML de un módulo o de un tema. Si declara un esquema `urn:magento:...`, los errores aparecen
-subrayados en el atributo o la etiqueta exactos, en español: atributo que no existe, atributo obligatorio que falta,
-elemento fuera de lugar, valor fuera de la lista (`onDelete="CASCATA"`), número inválido o XML mal formado. Se valida
+Los errores salen en español: atributo que no existe, atributo obligatorio que falta, elemento fuera de lugar, valor fuera de la lista (`onDelete="CASCATA"`), número inválido o XML mal formado. Se valida
 al abrir, al guardar y mientras escribes.
 
-La URN dice de qué componente es el XSD, y el `registration.php` de cada componente dice dónde está:
+La URN dice de que componente es el XSD, y el `registration.php` de cada componente dice dónde está:
 
 | URN | Se busca en |
 | :--- | :--- |
@@ -67,16 +54,18 @@ La URN dice de qué componente es el XSD, y el `registration.php` de cada compon
 
 Los `registration.php` se leen de `vendor/composer/autoload_files.php` (todo paquete instalado por Composer está ahí),
 de `app/code/<Vendor>/<Module>/` y, en una instalación desde el repositorio, de `lib/internal/Magento/Framework/`. La
-raíz del proyecto es la carpeta más cercana al archivo con `vendor/composer/autoload_files.php` o `app/etc/di.xml`.
+raíz del proyecto es la carpeta mas cercana al archivo con `vendor/composer/autoload_files.php` o `app/etc/di.xml`.
 
 La extensión no incluye ningún XSD: los de la plataforma tienen licencia OSL-3.0 y esta extensión es MIT. Leerlos de
 tu proyecto, además, garantiza que la validación corresponde a la versión instalada.
 
-### Snippets de XML de módulo
+### Snippets
 
 Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la lista.
 
-| Prefijo | Qué inserta |
+#### Snippets de XML de módulo
+
+| Prefijo | Que inserta |
 | :--- | :--- |
 | `ac-module`, `ac-module-sequence` | `etc/module.xml`, el orden de carga con `<sequence>` |
 | `ac-di` | `etc/di.xml` vacío |
@@ -99,17 +88,17 @@ Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la list
 | `ac-queue-consumer`, `ac-queue-publisher`, `ac-queue-topology` | Los `queue_*.xml` de la cola de mensajes |
 | `ac-indexer`, `ac-mview` | `etc/indexer.xml`, `etc/mview.xml` |
 
-### Snippets de `db_schema.xml`
+#### Snippets de `db_schema.xml`
 
-| Prefijo | Qué inserta |
+| Prefijo | Que inserta |
 | :--- | :--- |
 | `ac-db-schema`, `ac-db-table` | El archivo con una tabla, una `<table>` |
 | `ac-db-int`, `ac-db-varchar`, `ac-db-text`, `ac-db-decimal`, `ac-db-timestamp`, `ac-db-boolean` | Una `<column>` de cada tipo |
 | `ac-db-index`, `ac-db-unique`, `ac-db-foreign` | Índice, clave única y clave foránea |
 
-### Snippets de layout
+#### Snippets de layout
 
-| Prefijo | Qué inserta |
+| Prefijo | Que inserta |
 | :--- | :--- |
 | `ac-layout` | Archivo de layout con `<body>` |
 | `ac-layout-referenceblock`, `ac-layout-referencecontainer` | `<referenceBlock>`, `<referenceContainer>` |
@@ -117,9 +106,9 @@ Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la list
 | `ac-layout-container` | `<container>` |
 | `ac-layout-move`, `ac-layout-remove` | `<move>`, quitar un bloque o contenedor |
 
-### Snippets de PHP
+#### Snippets de PHP
 
-| Prefijo | Qué inserta |
+| Prefijo | Que inserta |
 | :--- | :--- |
 | `ac-registration` | `registration.php` |
 | `ac-plugin`, `ac-plugin-before`, `ac-plugin-after`, `ac-plugin-around` | Clase de plugin y cada tipo de método |
@@ -133,9 +122,9 @@ Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la list
 | `ac-resolver` | Resolver de GraphQL |
 | `ac-service-contract` | Interfaz de repositorio en `Api/` |
 
-### Snippets de templates `.phtml`
+#### Snippets de templates `.phtml`
 
-| Prefijo | Qué inserta |
+| Prefijo | Que inserta |
 | :--- | :--- |
 | `ac-phtml` | Cabecera con `$block`, `$escaper` y el ViewModel |
 | `ac-esc-html`, `ac-esc-html-tags` | `escapeHtml`, con etiquetas permitidas |
@@ -143,30 +132,30 @@ Todos los prefijos empiezan con `ac-`. Escribe `ac-` y el editor muestra la list
 | `ac-esc-url` | `escapeUrl` |
 | `ac-esc-js` | `escapeJs` |
 
-### Snippets de RequireJS y GraphQL
+#### Snippets de RequireJS y GraphQL
 
-| Prefijo | Qué inserta |
+| Prefijo | Que inserta |
 | :--- | :--- |
 | `ac-requirejs-config` | `requirejs-config.js` con `map`, `paths` y `mixins` |
 | `ac-requirejs-map`, `ac-requirejs-paths`, `ac-requirejs-mixins` | Cada sección por separado |
 | `ac-mixin-component`, `ac-mixin-widget`, `ac-mixin-function` | Mixin de componente UI, de widget jQuery y de función |
 | `ac-graphql-query`, `ac-graphql-mutation`, `ac-graphql-extend` | Query, mutation y campo nuevo en un tipo existente de `schema.graphqls` |
 
-## Configuración
+### Configuración
 
-| Ajuste | Por defecto | Qué hace |
+| Ajuste | Por defecto | Que hace |
 | :--- | :--- | :--- |
 | `adobeCommerceSnippets.validarXml` | `true` | Valida los XML que declaran un esquema `urn:magento:...` contra los XSD del proyecto |
 
 No tiene comandos.
 
-## Junto con otras extensiones
+### Junto con otras extensiones
 
 No colorea la sintaxis. Asocia `.phtml` al lenguaje `php` y `.graphqls` al lenguaje `graphql` para los snippets, y
 convive con cualquier extensión que traiga la gramática de PHP, XML o GraphQL. No genera archivos con comandos ni
 navega entre clases, layouts o ACL: para eso ya existen otras herramientas.
 
-## Solución de problemas
+### Solución de problemas
 
 **Un XML queda sin ningún diagnóstico.** No se encontró su XSD: el módulo no está instalado o todavía no corriste
 `composer install`. El motivo aparece en **Salida → Snippets for Adobe Commerce**.
@@ -174,7 +163,7 @@ navega entre clases, layouts o ACL: para eso ya existen otras herramientas.
 **`Ctrl + Espacio` no abre las sugerencias (macOS).** macOS usa ese atajo para cambiar la fuente de entrada. Usa
 `Cmd + I`, o libéralo en **Ajustes del Sistema → Teclado → Atajos de teclado → Fuentes de entrada**.
 
-## Estructura
+### Estructura
 
 ```
 .
@@ -187,7 +176,7 @@ navega entre clases, layouts o ACL: para eso ya existen otras herramientas.
 └── test/              # node:test
 ```
 
-## Desarrollo
+### Desarrollo
 
 JavaScript puro, sin TypeScript y sin build: el `main` es `extension.js`, tipado con JSDoc y `// @ts-check`. CommonJS,
 tabs, con punto y coma y con comillas dobles. Dependencia de runtime: `libxml2-wasm`.
@@ -219,15 +208,14 @@ si lo commiteado no es exactamente lo que produce.
 entera, y el commit de `main` lleva tag anotada de versión. `./scripts/instalar-hooks.sh` activa los hooks que
 cobran lo mismo en local. Una tag `v*` en `main` empaqueta el `.vsix` y lo adjunta a la Release de GitHub. La
 publicación en el Marketplace es manual, desde `main`, con `npx @vscode/vsce publish`: sube la versión en
-`package.json` y cierra el `CHANGELOG.md` antes, porque el Marketplace rechaza una versión repetida.
+`package.json` y cierra el `CHANGELOG.md` antes, porque el Marketplace rechaza una versión repetida. Los cambios de cada versión están en [CHANGELOG.md](CHANGELOG.md).
 
-Conventional Commits; el mensaje describe el efecto, no el cambio.
+## Contribuir · Licencia
 
-## Licencia
+Abre un PR contra `dev` con Conventional Commits; el mensaje describe el efecto, no el cambio.
 
-MIT, ver [LICENSE](LICENSE). Los snippets se escribieron a partir de la documentación de Adobe Commerce (Apache-2.0 y
-MIT), y la validación usa libxml2-wasm (MIT): ver [NOTICE](NOTICE).
+MIT, mira [LICENSE](LICENSE). Los snippets se escribieron a partir de la documentación de Adobe Commerce (Apache-2.0 y MIT), y la validación usa libxml2-wasm (MIT): mira [NOTICE](NOTICE).
 
 ---
 
-_Hecho con amor y café por [commente.me](https://commente.me)_
+Hecho por [commente.me](https://commente.me) · hola@commente.me
