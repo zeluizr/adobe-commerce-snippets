@@ -5,6 +5,14 @@ las versiones siguen [SemVer](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+## [0.1.2] - 2026-10-26
+
+### Cambiado
+
+- El ícono tiene las esquinas redondeadas, con el radio del ladrillo, porque el Marketplace no las redondea.
+- La cabecera del Marketplace va en el color de la plataforma, con texto oscuro, y el badge de versión del README
+  también.
+
 ## [0.1.1] - 2026-10-26
 
 ### Cambiado
