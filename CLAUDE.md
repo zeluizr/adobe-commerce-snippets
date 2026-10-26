@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Guia para trabalhar neste repositório. É a extensão de VS Code **"Adobe Commerce Snippets"** (publisher
+Guia para trabalhar neste repositório. É a extensão de VS Code **"Snippets for Adobe Commerce"** (publisher
 `commenteme`, id `commenteme.adobe-commerce-snippets`). Irmã do `shopify-snippets` e do `vtex-io-snippets`, para o
 desenvolvimento PHP do Adobe Commerce (Magento Open Source e Adobe Commerce).
 
