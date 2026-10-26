@@ -7,7 +7,7 @@ escribes cada `di.xml`, `events.xml`, `db_schema.xml`, layout y demás XML que d
 contra los XSD de la versión exacta que tu tienda tiene instalada, y trae snippets de XML, PHP, templates, RequireJS
 y GraphQL escritos a partir de la documentación oficial.
 
-[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.adobe-commerce-snippets?label=marketplace&color=005278)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
+[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.adobe-commerce-snippets?label=marketplace&color=F26322)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
 [![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.adobe-commerce-snippets?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.adobe-commerce-snippets)
 [![licencia](https://badgen.net/github/license/zeluizr/adobe-commerce-snippets?label=licencia)](./LICENSE)
 
