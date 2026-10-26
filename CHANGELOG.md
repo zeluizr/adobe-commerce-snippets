@@ -5,6 +5,12 @@ las versiones siguen [SemVer](https://semver.org/lang/es/).
 
 ## [Sin publicar]
 
+## [0.2.1] - 2026-10-26
+
+### Cambiado
+
+- La cabecera del Marketplace, en el naranja de Adobe Commerce, pasa a texto blanco, como en las otras dos extensiones.
+
 ## [0.2.0] - 2026-10-26
 
 ### Agregado
