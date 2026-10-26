@@ -13,7 +13,7 @@ y GraphQL escritos a partir de la documentación oficial.
 
 ![Validación de un di.xml contra el XSD del proyecto y snippets ac-di-](images/preview.png)
 
-Versión del código: **0.1.0**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
+Versión del código: **0.1.1**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
 
 ---
 
