@@ -1,4 +1,4 @@
-# Adobe Commerce Snippets
+# Snippets for Adobe Commerce
 
 **Snippets para Adobe Commerce y validación en vivo de los XML contra los XSD de tu propio proyecto.**
 
@@ -13,7 +13,7 @@ y GraphQL escritos a partir de la documentación oficial.
 
 ![Validación de un di.xml contra el XSD del proyecto y snippets ac-di-](images/preview.png)
 
-Versión del código: **0.1.2**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
+Versión del código: **0.1.3**, según [package.json](package.json). Requiere **VS Code >= 1.90.0**.
 
 ---
 
@@ -36,7 +36,7 @@ propio servidor de lenguaje. Esta extensión lo hace sola:
 
 ## Instalación
 
-Desde el VS Code Marketplace: busca **«Adobe Commerce Snippets»**, o desde Quick Open (`Cmd/Ctrl + P`):
+Desde el VS Code Marketplace: busca **«Snippets for Adobe Commerce»**, o desde Quick Open (`Cmd/Ctrl + P`):
 
 ```
 ext install commenteme.adobe-commerce-snippets
@@ -164,7 +164,7 @@ navega entre clases, layouts o ACL: para eso ya existen otras herramientas.
 ## Solución de problemas
 
 **Un XML queda sin ningún diagnóstico.** No se encontró su XSD: el módulo no está instalado o todavía no corriste
-`composer install`. El motivo aparece en **Salida → Adobe Commerce Snippets**.
+`composer install`. El motivo aparece en **Salida → Snippets for Adobe Commerce**.
 
 **`Ctrl + Espacio` no abre las sugerencias (macOS).** macOS usa ese atajo para cambiar la fuente de entrada. Usa
 `Cmd + I`, o libéralo en **Ajustes del Sistema → Teclado → Atajos de teclado → Fuentes de entrada**.
