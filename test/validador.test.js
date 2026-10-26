@@ -109,6 +109,15 @@ test("com os XSD do magento2: XML válidos sem falso positivo e erros no lugar c
 	assert.match(achados[1][1], /Falta el atributo obligatorio 'for'/);
 	assert.match(achados[2][1], /'abc' no es un valor válido/);
 
+	// xsi:type inexistente: um erro só, marcado no próprio xsi:type, sem o
+	// "tipo abstrato" que o libxml2 acrescenta como consequência.
+	const tipo = xml(di, '\t<type name="X">\n\t\t<arguments>\n\t\t\t<argument name="a" xsi:type="strin">x</argument>\n\t\t</arguments>\n\t</type>');
+	const ruim = await v.validar(arquivo, tipo);
+	assert.deepEqual(
+		ruim.problemas.map((p) => [tipo.slice(p.inicio, p.fim), p.mensagem]),
+		[["xsi:type", "<argument>, atributo xsi:type: El xsi:type 'strin' no existe en este esquema."]]
+	);
+
 	// framework-message-queue resolve para vendor/magento/framework-message-queue.
 	const fila = await v.validar(
 		arquivo,
